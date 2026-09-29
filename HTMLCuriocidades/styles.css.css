@@ -1,0 +1,487 @@
+/* ==========================================
+   CONFIGURACIÓN GENERAL
+   ========================================== */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    perspective: 1000px;
+}
+/* PANTALLA 2: fondo exclusivo */
+.bouquet-container {
+    width: 100vw;
+    min-height: 100vh;
+
+    background-image:
+        linear-gradient(rgba(26, 25, 25, 0.80), rgba(66, 13, 123, 0.1)),
+        url("https://img3.wallspic.com/previews/0/6/7/9/2/129760/129760-bruja-x750.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ==========================================
+   PANTALLA 1: SOBRE O CARTA CERRADA
+   ========================================== */
+.envelope-wrapper {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    text-align: center;
+    z-index: 10;
+}
+
+.envelope-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.envelope {
+    width: 250px;
+    height: 180px;
+    background-color: #e94560;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.envelope-text {
+    color: white;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ==========================================
+   PANTALLA 2: EL RAMO DE HOT WHEELS
+   ========================================== */
+.bouquet-container {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.5) translateY(100px);
+    transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Estado activo gatillado por JavaScript */
+.bouquet-container.open {
+    display: flex;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.title {
+    color: #10f890ed;
+    font-size: 1.8rem;
+    font-family: italic, sans-serif;
+    font-weight: 950;
+    text-align: center;
+    margin: 0 0 10px 0;
+    text-shadow: 0px 0px 10px rgba(6, 6, 6, 0.6);
+    animation: fadeInDown 1s ease forwards;
+}
+
+
+
+.subtitle {
+    color: #00ffcc;
+    font-size: 1.5rem;
+    margin: 15px 0 0 0;
+    text-shadow: 0px 0px 10px rgba(0, 255, 245, 0.6);
+    animation: fadeInUp 1s ease 1s forwards;
+    opacity: 0;
+}
+
+.bouquet {
+    position: relative;
+    width: 470px;
+    height: 420px;
+    background: linear-gradient(to bottom, transparent, rgba(233, 69, 96, 0.15));
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ==========================================
+   INTERACTIVIDAD Y POSICIÓN DE CARROS
+   ========================================== */
+.car {
+    position: absolute;
+    width: 140px;
+    filter: drop-shadow(0px 5px 8px rgba(0,0,0,0.6));
+    animation: float 3s ease-in-out infinite alternate;
+    cursor: pointer;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Efecto hover iluminado */
+.car:hover {
+    filter: drop-shadow(0px 0px 15px #00fff5) drop-shadow(0px 5px 5px rgba(0,0,0,0.8));
+    transform: scale(1.15) !important;
+    animation-play-state: paused;
+}
+
+/* Coordenadas del Ramo */
+.car-1 { top: 40px; left: 30px; animation-delay: 0s; }
+.car-2 { top: 15px; left: 150px; animation-delay: 0.5s; }
+.car-3 { top: 45px; right: 55px; animation-delay: 0.2s; }
+.car-4 { top: 140px; left: 60px; animation-delay: 0.7s; }
+.car-5 { top: 170px; right: 70px; animation-delay: 0.4s; }
+
+/* Elementos decorativos del ramo */
+.gift-tag {
+    position: absolute;
+    top: 110px;
+    left: 120px;
+    background: #fff;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transform: rotate(5deg);
+    pointer-events: none;
+}
+
+.bouquet-paper {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 200px solid rgba(233, 69, 96, 0.85);
+    z-index: -1;
+    border-radius: 0 0 20px 20px;
+}
+
+/* ==========================================
+   PANTALLA 3: VENTANA EMERGENTE (MODAL)
+   ========================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #1f4068;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 380px;
+    width: 85%;
+    box-shadow: 0 10px 30px rgba(0, 255, 245, 0.25);
+    border: 2px solid #00fff5;
+    transform: scale(0.7);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-img {
+    width: 200px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5));
+}
+
+.modal-text {
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-weight: bold;
+    margin: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #ff414d;
+    font-size: 2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
+}
+
+/* ==========================================
+   ANIMACIONES KEYFRAMES
+   ========================================== */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-15px) rotate(4deg); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* ==========================================
+   ESTILO DEL NUEVO BOTÓN DE REGRESO
+   ========================================== */
+.back-btn {
+    margin-top: 25px;
+    background-color: #e94560;
+    color: white;
+    border: 2px solid transparent;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: transparent;
+    border-color: #00fff5;
+    color: #00fff5;
+    box-shadow: 0 0 15px #00fff5;
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   ESTILOS DEL NUEVO CARRUSEL (PANTALLA 1)
+   ========================================== */
+.carousel-wrapper {
+    text-align: center;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    z-index: 10;
+}
+
+.carousel-container {
+    position: relative;
+    width: 400px;
+    height: 280px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 245, 0.4);
+    border: 2px solid #00fff5;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Flechas del carrusel */
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    z-index: 5;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.prev-btn:hover, .next-btn:hover {
+    background: #e94560;
+}
+
+/* Botón llamativo para abrir el ramo */
+.open-bouquet-btn {
+    margin-top: 15px;
+    background-color: #e94560;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.5);
+    transition: all 0.3s ease;
+    animation: pulse 1.5s infinite;
+}
+
+.open-bouquet-btn:hover {
+    background-color: #ff414d;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ff414d;
+}
+/* ==========================================
+   📱 DISEÑO RESPONSIVE PARA CELULARES
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+
+/* ==========================================
+   📱 CELULARES
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    /* Pantalla 2 */
+    .bouquet-container {
+        width: 100%;
+        min-height: 100vh;
+        padding: 20px 10px;
+        overflow: hidden;
+    }
+
+    /* Títulos */
+    .title {
+        font-size: 1.4rem;
+        line-height: 1.3;
+        padding: 0 10px;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        padding: 0 10px;
+    }
+
+    /* Ramo */
+    .bouquet {
+        width: 95vw;
+        max-width: 470px;
+        height: 420px;
+    }
+
+    /* Carros */
+    .car {
+        width: 85px;
+    }
+
+    /* Posición de cada carro */
+    .car-1 {
+        top: 40px;
+        left: 10px;
+    }
+
+    .car-2 {
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .car-3 {
+        top: 45px;
+        right: 10px;
+    }
+
+    .car-4 {
+        top: 145px;
+        left: 35px;
+    }
+
+    .car-5 {
+        top: 145px;
+        right: 35px;
+    }
+
+    /* Imagen que tengas dentro del ramo */
+    .bouquet > img {
+        max-width: 45%;
+        height: auto;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 90%;
+        max-width: 350px;
+        padding: 20px;
+    }
+
+    .modal-img {
+        width: 170px;
+        max-width: 80%;
+    }
+
+    .modal-text {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    /* Botones */
+    button {
+        max-width: 90%;
+    }
+}
