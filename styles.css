@@ -137,9 +137,9 @@ body {
 }
 
 /* Coordenadas del Ramo */
-.car-1 { top: 35px; left: 45px; animation-delay: 0s; }
+.car-1 { top: 30px; left: 55px; animation-delay: 0s; }
 .car-2 { top: 15px; left: 150px; animation-delay: 0.5s; }
-.car-3 { top: 45px; right: 55px; animation-delay: 0.2s; }
+.car-3 { top: 40px; right: 55px; animation-delay: 0.2s; }
 .car-4 { top: 140px; left: 60px; animation-delay: 0.7s; }
 .car-5 { top: 170px; right: 70px; animation-delay: 0.4s; }
 
